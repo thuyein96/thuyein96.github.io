@@ -35,4 +35,4 @@ You can view my live portfolio website by visiting: [https://thuyein96.github.io
     ```
 3.  **Open `index.html` in your web browser.**
 
-4. **Open 'thuyein96.github.io/petstore' to view petstore.**
+4. **Open `thuyein96.github.io/petstore` to view petstore.**
