@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<body>
+    <h1>VAT Calculator</h1>
+    <h2>Calculate Price with VAT</h2>
+    <input type="number" id="basePrice" value="" />
+    <button onClick="calculate()">Calculate</button>
+    <br/>
+    Price + VAT = <span id="result"></span>
+
+    <br/>
+    <h2>Calculate Price without VAT</h2>
+    <input type="number" id="priceWithVAT" value="" />
+    <button onClick="calculateWithVAT()">Calculate</button>
+    <br/>
+    Price - VAT = <span id="resultWithoutVAT"></span>
+</body>
+
+<script src="https://code.jquery.com/jquery-3.7.1.slim.min.js"
+    integrity="sha256-kmHvs0B+OpCW5GVHUNjv9rOmY0IvSIRcf7zGUDTDQM8=" crossorigin="anonymous"></script>
+<script src="calculator.js"></script>
+</html>
