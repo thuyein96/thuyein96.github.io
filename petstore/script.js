@@ -53,6 +53,29 @@ function loadFeaturedPets() {
     });
 }
 
+function filterPets() {
+    const types = Array.from(document.querySelectorAll('input[name="pet-type"]:checked'))
+        .map(cb => cb.value);
+
+    const filteredPets = pets.filter(pet => types.includes(pet.type));
+
+    const petList = document.getElementById("pet-list");
+    petList.innerHTML = "";
+
+    filteredPets.forEach(pet => {
+        const petItem = document.createElement("div");
+        petItem.className = "pet";
+        petItem.innerHTML = `
+            <img src="${pet.img}" alt="Cute ${pet.type}">
+            <h3>${pet.name}</h3>
+            <p>Type: ${pet.type}</p>
+            <p>Age: ${pet.age} years</p>
+            <button class="adopt-btn">Adopt Now</button>
+        `;
+        petList.appendChild(petItem);
+    });
+}
+
 function adoptPet() {
     alert("Thank you for your interest in adopting! Our team will contact you soon.");
 }
@@ -66,3 +89,11 @@ if (document.getElementById('pet-list')) {
 if (document.getElementById('featured-pets')) {
     loadFeaturedPets();
 }
+
+document.addEventListener("DOMContentLoaded", function() {
+    // Attach event listeners to checkboxes
+    document.querySelectorAll('input[name="pet-type"]').forEach(cb => {
+        cb.addEventListener("change", filterPets);
+    });
+    filterPets(); // Show all on load
+});

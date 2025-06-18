@@ -1,12 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VAT Calculator</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
 <body>
-    <h1>VAT Calculator</h1>
-    <h2>Calculate Price with VAT</h2>
-    <input type="number" id="basePrice" value="" />
-    <button onClick="calculate()">Calculate</button>
-    <br/>
-    Price + VAT = <span id="result"></span>
+    <div class="header">
+        <h1>VAT Calculator</h1>
+        <div>
+            <h2>Calculate Price with VAT</h2>
+            <input type="number" id="basePrice" value="" />
+            <button onClick="calculate()">Calculate</button>
+            <br/>
+            Price + VAT = <span id="result"></span>
+        </div>
+    
+    </div>
+    
 
     <br/>
     <h2>Calculate Price without VAT</h2>
