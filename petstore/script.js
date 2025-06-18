@@ -1,17 +1,14 @@
 const pets = [ 
-
-  {"name": "Buddy", "type": "Dog", "age": 3, "img": "images/dogs/dog01.jpg"}, 
-
-  {"name": "Kylo", "type": "Dog", "age": 4, "img": "images/dogs/dog02.jpg"}, 
-
-  {"name": "John Doe", "type": "Dog", "age": 5, "img": "images/dogs/dog03.jpg"}, 
-
-  {"name": "Whiskers", "type": "Cat", "age": 2, "img": "images/cats/cat01.jpg"}, 
-
-  {"name": "Mittens", "type": "Cat", "age": 3, "img": "images/cats/cat02.jpg"},
-
-  {"name": "John Coe", "type": "Cat", "age": 4, "img": "images/cats/cat03.jpg"}, 
-
+    { "name": "Buddy", "type": "Dog", "age": 3, "img": "images/dogs/dog01.jpg" }, 
+    { "name": "Kylo", "type": "Dog", "age": 4, "img": "images/dogs/dog02.jpg" }, 
+    { "name": "Max", "type": "Dog", "age": 2, "img": "images/dogs/dog03.jpg" }, 
+    { "name": "Whiskers", "type": "Cat", "age": 2, "img": "images/cats/cat01.jpg" }, 
+    { "name": "Mittens", "type": "Cat", "age": 3, "img": "images/cats/cat02.jpg" },
+    { "name": "Luna", "type": "Cat", "age": 1, "img": "images/cats/cat03.jpg" }, 
+    { "name": "Sunny", "type": "Bird", "age": 1, "img": "images/birds/bird01.jpg" }, 
+    { "name": "Sky", "type": "Bird", "age": 2, "img": "images/birds/bird02.jpg" }, 
+    { "name": "Choco", "type": "Capybara", "age": 5, "img": "images/capybaras/capybara01.jpg" },
+    { "name": "Bara", "type": "Capybara", "age": 3, "img": "images/capybaras/capybara02.jpg" }
 ];
 function loadPets(){
     // Get the container
