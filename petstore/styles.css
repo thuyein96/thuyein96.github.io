@@ -63,6 +63,14 @@ main {
     color: #333;
 }
 
+.featured > div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    min-height: 40px;
+}
+
 .featured-pets {
     display: flex;
     gap: 24px;
