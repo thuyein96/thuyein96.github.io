@@ -1,34 +1,81 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import accessoryData from "./utils/accessory.json";
+import { useLocalStorage } from 'react-use';
+import DataTable from "./components/DataTable";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const { 
+    register, 
+    handleSubmit 
+  } = useForm();
+  const [savedSelectedItems, setSavedSelectedItems] = useLocalStorage("selectedItems", [])
+  const [selectedItems, setSelectedItems] = useState(savedSelectedItems)
+
+  const onSubmit = (data) => {
+    const productId = parseInt(data.product);
+    const product = accessoryData.find(
+      (accessory) => accessory.id === productId
+    );
+    const order = {
+      ...product,
+      quantity: data.quantitiy
+    };
+    console.log(order);
+
+    const newItems = [...selectedItems, order];
+    setSelectedItems([newItems])
+    setSavedSelectedItems([newItems])
+    localStorage.setItem("selectedItems", JSON.stringify(newItems));
+  }; 
+
+  const handleDelete = (index) => {
+    console.log("Before Delete", JSON.stringify(selectedItems));
+    selectedItems.splice(index, 1);
+    setSelectedItems([...selectedItems]);
+    console.log("After Delete", JSON.stringify(selectedItems));
+
+    setSavedSelectedItems([...selectedItems]);
+    // console.log("After Delete", JSON.stringify(selectedItems));
+    localStorage.setItem("selectedItems", JSON.stringify(selectedItems));
+  }
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <div>
+      <h1>Form</h1>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        Product:
+        <select
+          // ref={productRef}
+          {...register("product")}
+        >
+          {accessoryData.map((accessory, index) => {
+            return (
+              <option key={index} value={accessory.id}>
+                {accessory.name} -- {accessory.price}
+              </option>
+            );
+          })}
+        </select>
+        <br />
+        Quantity:{" "}
+        <input
+          style={{ textAlign: "right" }}
+          type="number"
+          // ref={quantityRef}
+          {...register("quantity")}
+        />
+        <br />
+        <button type="submit">Submit</button>
+      </form>
+      <DataTable
+      data={selectedItems}
+      onDelete={handleDelete}
+      />
+    </div>
+
+    
   )
 }
 
