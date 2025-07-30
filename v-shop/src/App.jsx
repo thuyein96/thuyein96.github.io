@@ -1,109 +1,113 @@
-import { useState, useRef } from 'react' 
-import accessoryData from './accessory.json'
-import DataTable from './components/DataTable'
-import { useForm } from "react-hook-form"
+import { useState, useRef } from "react";
+import { useLocalStorage } from 'react-use';
+import accessoryData from "./accessory.json";
+import DataTable from "./components/DataTable";
+import { useForm } from "react-hook-form";
 
-function App() { 
+function App() {
   const {
     register,
     handleSubmit,
     watch,
     formState: { errors },
-  } = useForm()
-  const [selectedItems, setSelectedItems] = useState([
-    { id: 1, name: "Mouse", price: 10, quantity: 2 },
-    { id: 2, name: "Keyboard", price: 20, quantity: 1 },
-  ])
-  // const [selectedItems, setSelectedItems] = useState([ 
+  } = useForm();
+  const [savedSelectedItems, setSavedSelectedItems, remove] = useLocalStorage("selectedItems", [])
 
-  //   { id: 1, name: "Mouse", price: 10, quantity: 2 }, 
+  const [selectedItems, setSelectedItems] = useState(savedSelectedItems)
+  // const [selectedItems, setSelectedItems] = useState([
 
-  //   { id: 2, name: "Keyboard", price: 20, quantity: 1 }, 
+  //   { id: 1, name: "Mouse", price: 10, quantity: 2 },
 
-  // ]) 
+  //   { id: 2, name: "Keyboard", price: 20, quantity: 1 },
 
-  // For a component, it must return a single JSX element. 
+  // ])
 
-  // So if you have multiple elements, you need to wrap them in a single element. 
+  // For a component, it must return a single JSX element.
 
-  // You can use <>...</> to wrap multiple elements (only in JSX). 
-  
-  // const quantityRef = useRef() 
+  // So if you have multiple elements, you need to wrap them in a single element.
 
-  // const productRef = useRef() 
+  // You can use <>...</> to wrap multiple elements (only in JSX).
 
-  // const handleInput = (e) => { 
+  // const quantityRef = useRef()
 
-  //   const order = { 
+  // const productRef = useRef()
 
-  //     productId: productRef.current.value, 
+  // const handleInput = (e) => {
 
-  //     quantity: quantityRef.current.value 
+  //   const order = {
 
-  //   } 
+  //     productId: productRef.current.value,
 
-  //   console.table(order) 
+  //     quantity: quantityRef.current.value
 
-  // } 
+  //   }
 
-  // const updatePrice = (e) => { 
-
-  //   const productId = parseInt(e.target.value)   // Integer expected 
-
-  //   const product = accessoryData.find(accessory => accessory.id === productId) 
-
-  //   setPrice(product.price) 
+  //   console.table(order)
 
   // }
 
-  // const handleSubmit = (e) => { 
+  // const updatePrice = (e) => {
 
-  //   const productId = parseInt(productRef.current.value) 
+  //   const productId = parseInt(e.target.value)   // Integer expected
 
-  //   const product = accessoryData.find(accessory => accessory.id === productId) 
+  //   const product = accessoryData.find(accessory => accessory.id === productId)
 
-  //   const order = { 
+  //   setPrice(product.price)
 
-  //     id: product.id, 
+  // }
 
-  //     name: product.name, 
+  // const handleSubmit = (e) => {
 
-  //     price: product.price,  
+  //   const productId = parseInt(productRef.current.value)
 
-  //     ...product, 
+  //   const product = accessoryData.find(accessory => accessory.id === productId)
 
-  //     quantity: quantityRef.current.value 
+  //   const order = {
 
-  //   } 
+  //     id: product.id,
 
-  //   console.table(order) 
+  //     name: product.name,
 
-  //   selectedItems.push(order) // this does not update DataTable, why? 
-  //   setSelectedItems([...selectedItems]) 
-  // } 
+  //     price: product.price,
 
-  
-   const onSubmit = (data) => {
-    console.log(data)
-    const productId = parseInt(data.product)
-    
-    const product = accessoryData.find(accessory => accessory.id === productId)
+  //     ...product,
+
+  //     quantity: quantityRef.current.value
+
+  //   }
+
+  //   console.table(order)
+
+  //   selectedItems.push(order) // this does not update DataTable, why?
+  //   setSelectedItems([...selectedItems])
+  // }
+
+  const onSubmit = (data) => {
+    console.log(data);
+    const productId = parseInt(data.product);
+
+    const product = accessoryData.find(
+      (accessory) => accessory.id === productId
+    );
     const order = {
       ...product,
-      quantity: data.quantity
-    }
-    selectedItems.push(order) // this does not update DataTable, why?
+      quantity: data.quantity,
+    };
+    selectedItems.push(order); // this does not update DataTable, why?
     setSelectedItems([...selectedItems])
+    setSavedSelectedItems([...selectedItems])
+  };
 
+  const handleDelete = (index) => {
+    console.log("Delete item at index:", index);
+    selectedItems.splice(index, 1);
+    setSelectedItems([...selectedItems]);
+    setSavedSelectedItems([...selectedItems]);
   }
 
-  
-
-  return ( 
-
-    <> 
-
-    {/* Product: <select ref={productRef} onChange={updatePrice}> 
+  return (
+    <>
+      {/* Product: <select ref={productRef} onChange={updatePrice}> 
 
         {accessoryData.map((accessory, index) => { 
 
@@ -123,7 +127,7 @@ function App() {
 
     <button onClick={handleSubmit}>Submit</button>  */}
 
-    <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(onSubmit)}>
         Product:
         <select
           // ref={productRef}
@@ -131,27 +135,31 @@ function App() {
         >
           {accessoryData.map((accessory, index) => {
             return (
-              <option key={index} value={accessory.id}>{accessory.name} -- {accessory.price}</option>
-            )
-          }
-          )
-          }
-        </select><br />
-        Quantity: <input
-          style={{ textAlign: 'right' }}
+              <option key={index} value={accessory.id}>
+                {accessory.name} -- {accessory.price}
+              </option>
+            );
+          })}
+        </select>
+        <br />
+        Quantity:{" "}
+        <input
+          style={{ textAlign: "right" }}
           type="number"
           // ref={quantityRef}
-          {...register("quantity")} />
+          {...register("quantity")}
+        />
         <br />
         <button type="submit">Submit</button>
       </form>
 
-    <DataTable data={selectedItems} /> 
+      <DataTable 
+      data={selectedItems}
+      onDelete={handleDelete}
+      /> 
+      
+    </>
+  );
+}
 
-    </> 
-
-  ) 
-
-} 
-
-export default App 
+export default App;
